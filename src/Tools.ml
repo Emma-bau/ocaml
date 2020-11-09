@@ -16,5 +16,3 @@ let add_arc g id1 id2 n =
     |None -> new_arc g id1 id2 n
     |Some x -> new_arc g id1 id2 (x+n)
 
-    
-
