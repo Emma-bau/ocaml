@@ -23,3 +23,5 @@ demo: build
 clean:
 	-rm -rf _build/
 	-rm ftest.native
+	-rm ToolTest.native
+	-rm Tooltest.bytes
