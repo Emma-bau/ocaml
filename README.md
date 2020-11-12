@@ -19,4 +19,4 @@ A makefile provides some useful commands:
 
 In case of trouble with the VSCode extension (e.g. the project does not build, there are strange mistakes), a common workaround is to (1) close vscode, (2) `make clean`, (3) `make build` and (4) reopen vscode (`make edit`).
 
-Afin de vérifier les fonctions de Tools, faire make demo. Après l'exécution de ftest, il y a l'exécution de ToolTest qui vérifie l'utilisation de la fonction clone_nodes et affiche le résultat à l'écran.
+Afin de vérifier les fonctions de Tools, faire make demo. Après l'exécution de ftest, il y a l'exécution de ToolTest qui vérifie l'utilisation de la fonction gmap et add arc, (ici on ajoute un arc du noeud 0 au noeud 4  de cout 13 sur le graph 1) et affiche le résultat à l'écran. Afin de tester clone_nodes, décommenter la ligne de test.
