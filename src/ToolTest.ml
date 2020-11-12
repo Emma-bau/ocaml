@@ -24,8 +24,16 @@ let () =
   (* Open file *)
   let graph = from_file infile in
   (* Rewrite the graph that has been read. *)
-  let graph2 = Tools.clone_nodes graph in 
-  let () = write_file outfile graph2 in
+  (*let graph2 = Tools.clone_nodes graph in 
+  let () = write_file outfile graph2 in*)
+
+  let graph3=Tools.gmap graph int_of_string in
+
+  let graph4= Tools.add_arc graph3 0 4 13 in
+  let graph5 = Tools.gmap graph4 string_of_int in
+  let () = write_file outfile graph5 in
+
+
  
 
 
