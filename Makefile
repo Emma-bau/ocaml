@@ -15,6 +15,11 @@ demo: build
 	@echo "\n==== RESULT ==== (content of outfile) \n"
 	@cat outfile
 
+	@echo "\n==== EXECUTING ====\n"
+	./ToolTest.native graphs/graph1 1 2 outfile
+	@echo "\n==== RESULT ==== (content of outfile) \n"
+	@cat outfile
+
 clean:
 	-rm -rf _build/
 	-rm ftest.native

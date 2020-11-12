@@ -99,5 +99,29 @@ let from_file path =
   close_in infile ;
   final_graph
 
-  let export path graph =
+  let export path graph_from graph_to=
+    let export_file = open_out (path ^ ".dot") in
+
+    fprintf export_file "digraph finite_state_machine {\n" ;
+    fprintf export_file "\trankdir=LR;\n" ;
+    fprintf export_file "\tnode [shape = circle];\n" ;
+
+    let write_label id1 id2 lbl = 
+      try
+        match find_arc graph_to id1 id2 with
+        | None                  -> ()
+        | Some lbl -> fprintf export_file "\t%d -> %d [ label = \"%s\" ];\n" id1 id2 lbl
+      with Graph_error s  -> ()
+    in
+
+    e_iter graph_from write_label;
+
+    fprintf export_file "}\n" ;
+  
+    close_out export_file ;
+    ()
+    
+
+
+
 
