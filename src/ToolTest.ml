@@ -23,7 +23,7 @@ let () =
 
   (* Open file *)
   let graph = from_file infile in
-  (* Test de clone_nodes(). *)
+  (* Test de clone_nodes(). *) 
   (*let graph2 = Tools.clone_nodes graph in 
   let () = write_file outfile graph2 in*)
 

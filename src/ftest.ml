@@ -1,4 +1,5 @@
 open Gfile
+open Ford_fulkerson
 
 let () =
 
@@ -23,6 +24,7 @@ let () =
   (* Open file *)
   let graph = from_file infile in
   (* Rewrite the graph that has been read. *)
+  
   let () = write_file outfile graph in
 
   ()
