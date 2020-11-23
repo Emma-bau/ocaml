@@ -1,5 +1,6 @@
 open Graph
 open Printf
+open Tools
 
 type path = string
 
@@ -116,5 +117,17 @@ let from_file path =
     
 
 
+let from_file_ff path =
+  let string_graph = from_file path in
+
+  try
+    gmap string_graph (fun gr_label -> 0,(int_of_string gr_label))
+  with _ -> gmap string_graph 
+      (fun gr_label -> 
+        match String.split_on_char '/' gr_label with
+          |[flow;capacity] -> ((int_of_string flow), int_of_string capacity)
+          |default -> raise (Graph_error("Le format du fichier n'est pas correct"))
+
+      )
 
 

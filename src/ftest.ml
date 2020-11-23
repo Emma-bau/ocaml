@@ -22,7 +22,14 @@ let () =
   in
 
   (* Open file *)
-  let graph = from_file infile in
+  Printf.printf("Ford Fulkerson algortihme : \n%!");
+  (*Chargement du graphe*)
+  let graph = from_file_ff infile in
+  (*on lui applique l'algorithme*)
+  let flow_graph = Ford_fulkerson.ford_fulkerson graph _source _sink in
+
+
+
   (* Rewrite the graph that has been read. *)
   
   let () = write_file outfile graph in
