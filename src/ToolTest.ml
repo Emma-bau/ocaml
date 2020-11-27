@@ -27,11 +27,14 @@ let () =
   (*let graph2 = Tools.clone_nodes graph in 
   let () = write_file outfile graph2 in*)
 
-  let graph3=Tools.gmap graph int_of_string in
+  let graph2 = Tools.gmap graph int_of_string in
 
-  let graph4= Tools.add_arc graph3 0 4 13 in
-  let graph5 = Tools.gmap graph4 string_of_int in
-  let () = write_file outfile graph5 in
+  (*rajout d'un arc de 0 à 2 de valeur x+3 donc 11*)
+  let graph3 = Tools.add_arc graph2 0 2 3 in
+
+  let graph4 = Tools.gmap graph3 string_of_int in
+
+  let () = write_file outfile graph4 in
 
 
  

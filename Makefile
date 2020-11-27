@@ -2,6 +2,8 @@
 build:
 	@echo "\n==== COMPILING ====\n"
 	ocamlbuild ftest.native
+	@echo "\n==== COMPILING ====\n"
+	ocamlbuild ToolTest.native
 
 format:
 	ocp-indent --inplace src/*
@@ -10,18 +12,33 @@ edit:
 	code . -n
 
 demo: build
-	@echo "\n==== EXECUTING ====\n"
-	./ftest.native graphs/graph1 1 2 outfile
-	@echo "\n==== RESULT ==== (content of outfile) \n"
+
+
+
+	@echo "\n====TOOL TEST ====\n"
+	@echo "\n==== INITIAL GRAPH TOOL TEST====\n"
+	@cat graphs/graph1
+	@echo "\n==== EXECUTING TOOL TEST====\n"
+	./ToolTest.native graphs/graph1 1 2 outfile
+	@echo "\n==== RESULT OF TOOL TEST==== (content of outfile) \n"
 	@cat outfile
 
-	@echo "\n==== EXECUTING ====\n"
-	./ToolTest.native graphs/graph1 1 2 outfile
-	@echo "\n==== RESULT ==== (content of outfile) \n"
+
+	@echo "\n====FORD FULKERSON TEST ====\n"
+	@echo "\n==== INITIAL GRAPH TOOL TEST====\n"
+	@cat graphs/graph3
+	@echo "\n==== EXECUTING FORD FULKERSON====\n"
+	./ftest.native graphs/graph4 0 3 outfile
+	@echo "\n==== RESULT OF FORD FULKERSON==== (content of outfile) \n"
 	@cat outfile
+
+
+
+
+
+	
 
 clean:
 	-rm -rf _build/
 	-rm ftest.native
 	-rm ToolTest.native
-	-rm Tooltest.bytes

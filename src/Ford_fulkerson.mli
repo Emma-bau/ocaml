@@ -24,8 +24,8 @@ sinon elle nous renvoit la liste des noeuds visités pendant le parcours de l'al
 val find_path : available_graph-> id -> id -> result 
 
 
+val update : available_graph -> int -> int list -> available_graph
 
 (*Notre algorithme s'applique sur un graphe de flot*)
-(*val ford_fulkerson: flowgraph-> id-> id->flowgraph*)
-(*val ford_fulkerson : flowgraph -> id -> id -> flowgraph*)
+val ford_fulkerson : flowgraph -> id -> id -> available_graph
 

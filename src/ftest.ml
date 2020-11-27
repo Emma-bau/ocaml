@@ -21,38 +21,33 @@ let () =
   and sink = int_of_string Sys.argv.(3)
   in
   (* Open file *)
-   Printf.printf("Find_path test algortihme : \n%!");
-  (*Chargement du graphe*)
+   Printf.printf("Ford Fulkersont algortihme : \n%!");
+  (*Chargement du string graphe*)
   let graph = from_file infile in
+  (*conversion en int graph*)
   let graph_int = Tools.gmap graph int_of_string in
+  (*conversion en flow graph*)
   let graph_init =  Ford_fulkerson.init_flow_graph graph_int in
-  let available_graph = Ford_fulkerson.get_flow_available graph_init in
-  let ()= match Ford_fulkerson.find_path available_graph source sink with
-    |Trouve (l,f) -> Printf.printf("Path : \n%!"); List.iter (fun (a:int) -> Printf.printf("%d\n") a) l; Printf.printf("Flow_max : %d\n") f
-    |Not_Trouve (l)-> Printf.printf("Node visited: \n%!"); List.iter (fun a -> Printf.printf("%d\n")a) l;
-  in
+  (*Application de l'alorithme*)
+  let graph_ff = Ford_fulkerson.ford_fulkerson graph_init source sink in 
 
+  let string_graph_ff = Tools.gmap graph_ff string_of_int in 
 
-
-
-
-
-
-
-
-
-  (*(* Open file *)
-  Printf.printf("Ford Fulkerson algortihme : \n%!");
-  (*Chargement du graphe*)
-  let graph = from_file_ff infile in
-  (*on lui applique l'algorithme*)
-  let flow_graph = Ford_fulkerson.ford_fulkerson graph _source _sink in
-
-
-
-  (* Rewrite the graph that has been read. *)
+  let () = write_file outfile string_graph_ff in  
   
-  let () = write_file outfile graph in*)
+  
+  
+
+  
+
+
+
+
+
+
+
+  
+
 
   ()
 

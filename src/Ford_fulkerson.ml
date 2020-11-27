@@ -29,16 +29,14 @@ let get_flow_available gr =
   gr_clone
 
 
-   (*On considère que notre graph sera toujours composé d'entier*)
+  (*On considère que notre graph sera toujours composé d'entier*)
   let init_flow_graph (gr:int graph) =
     let gr_clone = clone_nodes gr in
     e_fold gr (fun flow_graph id1 id2 (lbl:int)-> 
       new_arc flow_graph id1 id2 (0, lbl)) 
     gr_clone 
 
-    (*Enlever direction pour l'instant*)
-    (*vérifier si le avaible floxw est potisitf *)
-    (*capacité de 0 non pris à rajouter*)
+
     (*renvoyer le chemin, si la liste est vide, on n'a pas trouvé*)
   type result = Trouve of ((int list) * int)| Not_Trouve of (int list) (*distinguer les deux cas de sortie de let*)
 
@@ -47,9 +45,9 @@ let get_flow_available gr =
 
   let find_path (gr:available_graph) source dest = 
     let rec loop_on_edge acu long visited = function
-      |[] -> Not_Trouve(visited)(*Tous les noeuds sont testés, la source n'a pas été trouvée*)
+      |[] -> Not_Trouve visited(*Tous les noeuds sont testés, la source n'a pas été trouvée*)
       |(id,available_flow)::rest->
-        if List.mem id visited then
+        if List.mem id visited || available_flow = 0  then
           loop_on_edge acu long visited rest
         else if id = dest then
           let long = min available_flow long in
@@ -58,8 +56,7 @@ let get_flow_available gr =
         else
           (*On met à jour notre visited*)
           match loop_on_edge acu long (id::visited) rest with
-          |Trouve(l,f) -> let long = min available_flow long in
-                          loop_on_edge (id::acu) long l (out_arcs gr id)
+          |Trouve(l,f) -> Trouve(l,f)                         
           |Not_Trouve(l1) -> let long = min available_flow long in
                             loop_on_edge (id::acu) long l1 (out_arcs gr id)
           
@@ -67,51 +64,47 @@ let get_flow_available gr =
     loop_on_edge  [source] max_int [source] (out_arcs gr source)
 
 
-  (*let rec update gr long = function
+
+   (* for our purposes 0 is sufficiently None *)
+  let int_of_intoption = function None -> 0 | Some n -> n
+ 
+
+  let rec update (gr:int graph) f = function
     (*Si aucun noeud n'a été ajouté dans visited ou qu'il il y a un seul noeud, on renvoit le graph normal*)
-    |[] -> gr
-    |[(id,direction)] -> gr
-    |((id1,direction1)::(id2,direction2)::rest) -> 
-    (*On update notre arc si il existe*)
-      let update_arc gr id1 id2 long =
-        match find_arc gr id1 id2 with
-        |None-> gr
-        |Some (flow, capacity) -> new_arc gr id1 id2 (flow + long, capacity)
-      in
-      match direction2 with
-      |Same -> update ( update_arc gr id1 id2 long) long rest
-      |Opposite -> update( update_arc gr id2 id1 (-long)) long rest*)
+    |[]-> gr
+    |id::[]->gr
+    |id1::id2::rest -> 
+      (*mise à jour de l'arc existant*)
+      match find_arc gr id1 id2  with
+      |None -> raise(Graph_error("Path not found on update"))
+      |Some x -> 
+        let new_gr = add_arc gr id1 id2 (-f) in
+        let new_gr1 = 
+          match find_arc gr id2 id2 with
+          |None -> add_arc new_gr id2 id1 f 
+          |Some x -> add_arc new_gr id2 id1 (f)
+        in
+        update new_gr1 f (id2::rest)
+ 
+       
 
-
-
-
-  
-
-(*Grace à notre exception on récupère donc le chemin le plus court de notre source 
-à notre destination ainsi que son flot max*)
 
 
 (*algorithme de ford fulkerson*)
-(*Diff méthode d'erreur à tester*)
-(*let ford_fulkerson gr source dest =
+let ford_fulkerson gr source dest =
   (*Vérification si les noeuds de départ et d'arrivée existent ou non*)
   if (not (node_exists gr source)) || (not (node_exists gr dest)) then
       raise (Graph_error ("Source ou destination introuvable"))
   else
     let rec aux gr =
-      let available_flow = get_flow_available gr in
+      match find_path gr source dest with
+      |Not_Trouve(l)->  Printf.printf("Node visited: \n%!"); List.iter (fun a -> Printf.printf("%d\n")a) l; gr
+      (*penser à remettre aux*)
+      |Trouve(l,f)-> Printf.printf("Path : \n%!"); List.iter (fun (a:int) -> Printf.printf("%d\n") a) l; Printf.printf("Flow_max : %d\n") f; aux (update gr f l)
 
-      try 
-        let _= find_path available_flow source dest in
-        (*Si aucune exception n'est levée, l'algo est fini, notre graphe est complété*)
-        gr 
-
-        with(Path_Found(visited, long)) -> aux (update gr long visited)
     in
-    aux gr*)
-      
+  aux (get_flow_available gr)
 
-(*Traitement de string graph à ford fulkerson graph*)
 
 
 
