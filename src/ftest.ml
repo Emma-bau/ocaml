@@ -21,7 +21,7 @@ let () =
   and sink = int_of_string Sys.argv.(3)
   in
   (* Open file *)
-   Printf.printf("Ford Fulkersont algortihme : \n%!");
+  Printf.printf("-------- Ford Fulkersont algortihme : Test on graph  -------- \n%!");
   (*Chargement du string graphe*)
   let graph = from_file infile in
   (*conversion en int graph*)
@@ -34,7 +34,8 @@ let () =
   let string_graph_ff = Tools.gmap graph_ff string_of_int in 
 
   let () = write_file outfile string_graph_ff in  
-  
+
+
   
   
 
