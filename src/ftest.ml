@@ -33,7 +33,10 @@ let () =
 
   let string_graph_ff = Tools.gmap graph_ff string_of_int in 
 
+  (*écriture dans la console*)
   let () = write_file outfile string_graph_ff in  
+
+  let () = export "graph" string_graph_ff in
 
 
   
