@@ -67,3 +67,9 @@ clean:
 	-rm -rf _build/
 	-rm ftest.native
 	-rm ToolTest.native
+	-rm graph.dot
+	-rm graph_complex.svg
+	-rm graph_circular.svg
+	-rm graph_simple.svg
+	-rm outfile
+
